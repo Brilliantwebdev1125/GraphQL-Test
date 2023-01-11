@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  backend-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/app/src
+    container_name: backend-server
+    expose:
+      - 4000
+    ports:
+      - "4000:4000"
+      - "9229:9229"
+    command: npm run start
+    links:
+      - db
+
+  db:
+    container_name: db
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+
+volumes:
+  data:
